@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Actividad 4 - Grupo O</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+        <p class="title is-4 mt-4 mb-1">
+            Dígitos iniciales:
+        </p>
+        <input class="input is-medium is-primary" type="number" id="inputNumber" name="inputNumber" min="100000" max="999999999999" value="175102" >
+    </div>
+    <div class="container">
+        <p class="title is-4 mt-5 mb-1">
+            Pasos máximos (K):
+        </p>
+        <input class="input is-medium is-primary" type="number" id="inputK" name="inputK" min="1" max="100" value="3" >
+    </div>
+    <div class="container has-text-centered mt-6">
+        <button class="button is-primary is-medium" onclick="start()">Empezar!</button>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container has-text-centered box">
+        <p id="currentNum" class="title is-1 mb-5 mt-2 is-family-monospace">
+            ...
+        </p>
+        <button id="nextButton" class="button is-primary is-medium mb-2" onclick="nextStep()" disabled>Siguiente</button>
+        <p id="currentStep" class="title is-5 mb-2 mt-2">
+            ...
+        </p>
+    </div>
+  </section>
+  </body>
+
+  <script>
+
+    var currentNumArray = []
+    var k = -1
+    var step = -1
+    var earlyFinish = false
+
+      function start() {
+        var currentNum = document.getElementById("inputNumber").value
+        currentNumArray = String(currentNum).split("").map((currentNum)=>{
+            return Number(currentNum)
+        })
+        k = document.getElementById("inputK").value
+        step = 0
+        earlyFinish = false
+
+        updateUI()
+      }
+
+      function nextStep() {
+        step++
+        currentNum++
+
+        if (!applyGreedyAlgorithmOnce()) {
+            earlyFinish = true
+        }
+
+        updateUI()
+      }
+
+      function applyGreedyAlgorithmOnce() {
+        for (let i = 0; i < currentNumArray.length - 1; i++) {
+            if (currentNumArray[i] < currentNumArray[i+1]) {
+                var aux = currentNumArray[i]
+                currentNumArray[i] = currentNumArray[i+1]
+                currentNumArray[i+1] = aux
+                return true
+            }
+        }
+        return false
+      }
+
+      function updateUI() {
+        document.getElementById("currentNum").innerText = Number(currentNumArray.join(''))
+        document.getElementById("currentStep").innerText = "Step: " + step
+        document.getElementById("nextButton").disabled = step == k || earlyFinish
+      }
+
+  </script>
+</html>
