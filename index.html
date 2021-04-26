@@ -71,12 +71,12 @@
         var selectedPosPotential = 0
         var selectedPosCurrentValue = 0
         for (let i = digitsInBestPos; i < currentNumArray.length; i++) {
+            
             var digit = currentNumArray[i]
             var digitPosRTL = currentNumArray.length - i - 1
             var digitCurrentValue = digit * Math.pow(10, digitPosRTL)
             var digitPotential = digit * Math.pow(10, Math.min(digitPosRTL + k - stepCount, currentNumArray.length - 1 - digitsInBestPos))
-            console.log("i=" + i + ", [" + digit + "], " + digitCurrentValue + ", " + digitPotential)
-            console.log(digitPosRTL + k - stepCount)
+            
             if (digitPotential - digitCurrentValue > selectedPosPotential - selectedPosCurrentValue) {
                 if (currentNumArray[i] > currentNumArray[i-1]) {
                     selectedPos = i
@@ -86,7 +86,6 @@
             }
         }
 
-        console.log("")
         if (selectedPos != -1) {
           var aux = currentNumArray[selectedPos - 1]
           currentNumArray[selectedPos - 1] = currentNumArray[selectedPos]
