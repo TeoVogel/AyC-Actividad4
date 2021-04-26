@@ -41,7 +41,8 @@
 
     var currentNumArray = []
     var k = -1
-    var step = -1
+    var stepCount = -1
+    var digitsInBestPos = -1
     var earlyFinish = false
 
       function start() {
@@ -49,40 +50,59 @@
         currentNumArray = String(currentNum).split("").map((currentNum)=>{
             return Number(currentNum)
         })
-        k = document.getElementById("inputK").value
-        step = 0
+        k = Number(document.getElementById("inputK").value)
+        stepCount = 0
+        digitsInBestPos = 0
         earlyFinish = false
 
         updateUI()
       }
 
       function nextStep() {
-        step++
-        currentNum++
-
         if (!applyGreedyAlgorithmOnce()) {
             earlyFinish = true
         }
-
+        stepCount++
         updateUI()
       }
 
       function applyGreedyAlgorithmOnce() {
-        for (let i = 0; i < currentNumArray.length - 1; i++) {
-            if (currentNumArray[i] < currentNumArray[i+1]) {
-                var aux = currentNumArray[i]
-                currentNumArray[i] = currentNumArray[i+1]
-                currentNumArray[i+1] = aux
-                return true
+        var selectedPos = -1
+        var selectedPosPotential = 0
+        var selectedPosCurrentValue = 0
+        for (let i = digitsInBestPos; i < currentNumArray.length; i++) {
+            var digit = currentNumArray[i]
+            var digitPosRTL = currentNumArray.length - i - 1
+            var digitCurrentValue = digit * Math.pow(10, digitPosRTL)
+            var digitPotential = digit * Math.pow(10, Math.min(digitPosRTL + k - stepCount, currentNumArray.length - 1 - digitsInBestPos))
+            console.log("i=" + i + ", [" + digit + "], " + digitCurrentValue + ", " + digitPotential)
+            console.log(digitPosRTL + k - stepCount)
+            if (digitPotential - digitCurrentValue > selectedPosPotential - selectedPosCurrentValue) {
+                if (currentNumArray[i] > currentNumArray[i-1]) {
+                    selectedPos = i
+                    selectedPosPotential = digitPotential
+                    selectedPosCurrentValue = digitCurrentValue
+                }
             }
+        }
+
+        console.log("")
+        if (selectedPos != -1) {
+          var aux = currentNumArray[selectedPos - 1]
+          currentNumArray[selectedPos - 1] = currentNumArray[selectedPos]
+          currentNumArray[selectedPos] = aux
+          if (selectedPosPotential == selectedPosCurrentValue * 10) {
+            digitsInBestPos++
+          }
+          return true
         }
         return false
       }
 
       function updateUI() {
         document.getElementById("currentNum").innerText = Number(currentNumArray.join(''))
-        document.getElementById("currentStep").innerText = "Step: " + step
-        document.getElementById("nextButton").disabled = step == k || earlyFinish
+        document.getElementById("currentStep").innerText = "Paso: " + stepCount
+        document.getElementById("nextButton").disabled = stepCount == k || earlyFinish
       }
 
   </script>
