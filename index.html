@@ -62,7 +62,6 @@
         if (!applyGreedyAlgorithmOnce()) {
             earlyFinish = true
         }
-        stepCount++
         updateUI()
       }
 
@@ -94,11 +93,14 @@
         if (selectedPos == -1) {
             return false
         }
-
-        swap(currentNumArray, selectedPos, selectedPos - 1)
-        if (selectedPosPotentialValue == selectedPosCurrentValue * 10) {
-          digitsInBestPos++
+            
+        while (selectedPosCurrentValue < selectedPosPotentialValue && stepCount < k) {
+            swap(currentNumArray, selectedPos, selectedPos - 1)
+            selectedPos--
+            selectedPosCurrentValue = selectedPosCurrentValue * 10
+            stepCount++
         }
+        digitsInBestPos++
         return true
       }
 
