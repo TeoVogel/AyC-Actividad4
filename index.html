@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Actividad 4 - Grupo O</title>
+    <title>Actividad 4 - Grupo I</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
   </head>
   <body>
@@ -82,7 +82,7 @@
             var digitCurrentValue = digit * Math.pow(10, digitCurrentPosRTL)
             var digitPotentialValue = digit * Math.pow(10, digitPotentialPosRTL)
             
-            if (digitPotentialValue - digitCurrentValue > selectedPosPotentialValue - selectedPosCurrentValue) {
+            if (digitPotentialValue > selectedPosPotentialValue) {
                 if (currentNumArray[i] > currentNumArray[i-1]) {
                     selectedPos = i
                     selectedPosPotentialValue = digitPotentialValue
